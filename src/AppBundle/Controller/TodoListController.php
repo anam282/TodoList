@@ -35,12 +35,13 @@ class TodoListController extends Controller
      try{
        $task = new Task();
        $task->setName($body['name']);
-       $task->setDateCreated(new \DateTime("now"));
+       $task->setDateCreated($body['dateCreated']);
        $task->setStatus($body['status']);
        $em->persist($task);
        $em->flush();
        $em->getConnection()->commit();
        $response->setStatusCode(200);
+       $response->headers->set('Location', $task->getId());
      }catch (Exception $e) {
        $em->getConnection()->rollBack();
        $response->setStatusCode(500);
@@ -74,6 +75,28 @@ class TodoListController extends Controller
         $response->setStatusCode(200);
 
       } catch (Exception $e) {
+        $em->getConnection()->rollBack();
+        $response->setStatusCode(500);
+      }
+      return $response;
+    }
+
+    /**
+    * @Route("/todolist/task/{id}")
+    * @Method({"DELETE"})
+    */
+    function deleteTask(Request $request, $id)
+    {
+      $response = new Response();
+      $em = $this->getDoctrine()->getManager();
+      $em->getConnection()->beginTransaction();
+      try{
+        $task = $em->getReference('AppBundle:Task', $id);
+        $em->remove($task);
+        $em->flush();
+        $em->getConnection()->commit();
+        $response->setStatusCode(200);
+      }catch (Exception $e) {
         $em->getConnection()->rollBack();
         $response->setStatusCode(500);
       }

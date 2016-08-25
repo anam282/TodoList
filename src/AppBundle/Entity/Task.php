@@ -29,9 +29,9 @@ class Task
     private $name;
 
     /**
-     * @var \DateTime
+     * @var string
      *
-     * @ORM\Column(name="date_created", type="datetime")
+     * @ORM\Column(name="date_created", type="string", length=255)
      */
     private $dateCreated;
 

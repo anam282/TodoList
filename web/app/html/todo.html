@@ -1,20 +1,21 @@
-<div class="container">
+<div class="container" ng-init="load()">
 		<div class="jumbotron">
 			<h1 align="center">{{heading}}</h1>
 		</div>
-			<form ng-submit="add()" name="frm">
+			<form ng-submit="add()">
 				<div class="form-group">
-  				<label for="task">Task:</label>
-    			<input type="text" class="form-control" id="task" autofocus ng-model="task" required>
+  				<label>Task:</label>
+    			<input type="text" class="form-control" ng-model="name" autofocus>
   			</div>
-  				<button id="add" type="submit" class="btn btn-primary" ng-disabled="frm.$invalid">Add</button>
+  				<button type="submit" class="btn btn-primary" ng-enable="name">Add</button>
 			</form>
 			<!-- No tasks in list -->
 			<p ng-if="todos.length === 0"><b>All done!!</b></p>
 			<!-- Display list of todos -->
-			<table ng-if="todos.length > 0" class="table" id="todoList">
+			<table ng-if="todos.length > 0" class="table">
   				<thead>
     				<tr>
+                <th>Id</th>
       					<th>Task</th>
       					<th>Added On</th>
       					<th>Update</th>
@@ -22,9 +23,12 @@
   				</thead>
   				<tbody ng-repeat="todo in todos">
   					<tr>
-  						<td>{{todo.task}}</td>
-  						<td>{{todo.date|date:'yyyy-MM-dd'}}</td>
-  						<td><button ng-click="done(todo)" type="button" class="btn btn-primary btn-sm done">Done</button></td>
+              <td>{{todo.id}}</td>
+  						<td>{{todo.name}}</td>
+  						<td>{{todo.dateCreated|date:'yyyy-MM-dd'}}</td>
+  						<td>
+                <button class="btn btn-primary btn-sm" ng-click="done(todo)">Done</button>
+              </td>
   					</tr>
   				</tbody>
 			</table>
