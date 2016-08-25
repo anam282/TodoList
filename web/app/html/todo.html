@@ -1,0 +1,31 @@
+<div class="container">
+		<div class="jumbotron">
+			<h1 align="center">{{heading}}</h1>
+		</div>
+			<form ng-submit="add()" name="frm">
+				<div class="form-group">
+  				<label for="task">Task:</label>
+    			<input type="text" class="form-control" id="task" autofocus ng-model="task" required>
+  			</div>
+  				<button id="add" type="submit" class="btn btn-primary" ng-disabled="frm.$invalid">Add</button>
+			</form>
+			<!-- No tasks in list -->
+			<p ng-if="todos.length === 0"><b>All done!!</b></p>
+			<!-- Display list of todos -->
+			<table ng-if="todos.length > 0" class="table" id="todoList">
+  				<thead>
+    				<tr>
+      					<th>Task</th>
+      					<th>Added On</th>
+      					<th>Update</th>
+    				</tr>
+  				</thead>
+  				<tbody ng-repeat="todo in todos">
+  					<tr>
+  						<td>{{todo.task}}</td>
+  						<td>{{todo.date|date:'yyyy-MM-dd'}}</td>
+  						<td><button ng-click="done(todo)" type="button" class="btn btn-primary btn-sm done">Done</button></td>
+  					</tr>
+  				</tbody>
+			</table>
+</div>
