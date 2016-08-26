@@ -7,7 +7,7 @@
   				<label>Task:</label>
     			<input type="text" class="form-control" ng-model="name" autofocus>
   			</div>
-  				<button type="submit" class="btn btn-primary" ng-enable="name">Add</button>
+  				<button type="submit" class="btn btn-primary" ng-disabled="!name">Add</button>
 			</form>
 			<!-- No tasks in list -->
 			<p ng-if="todos.length === 0"><b>All done!!</b></p>
@@ -15,19 +15,26 @@
 			<table ng-if="todos.length > 0" class="table">
   				<thead>
     				<tr>
-                <th>Id</th>
-      					<th>Task</th>
+      					<th>Select</th>
+                <th>Task</th>
       					<th>Added On</th>
       					<th>Update</th>
     				</tr>
   				</thead>
   				<tbody ng-repeat="todo in todos">
   					<tr>
-              <td>{{todo.id}}</td>
-  						<td>{{todo.name}}</td>
+              <td><input type="checkbox"></td>
+  						<td>
+                <div ng-if="todo.status == 'Done'">
+                  <s>{{todo.name}}</s>
+                </div>
+                <div ng-if="todo.status == 'In progress'">
+                  {{todo.name}}
+                </div>
+              </td>
   						<td>{{todo.dateCreated|date:'yyyy-MM-dd'}}</td>
   						<td>
-                <button class="btn btn-primary btn-sm" ng-click="done(todo)">Done</button>
+                <button class="btn btn-primary btn-sm" ng-click="done(todo)" ng-disabled="todo.status == 'Done'">Done</button>
               </td>
   					</tr>
   				</tbody>

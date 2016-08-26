@@ -3,6 +3,7 @@ var app = angular.module("todoApp");
 app.controller('TodoController', ['$scope', '$http', function($scope, $http){
 	$scope.heading = "Todo List";
 	$scope.todos = [];
+	
 	$scope.add = function(){
 		dateCreated = new Date();
 		request = {
@@ -14,14 +15,14 @@ app.controller('TodoController', ['$scope', '$http', function($scope, $http){
 			.success(function(data, status, headers, config){
 				request['id'] = headers('Location'); 
 				$scope.todos.push(request);
-				$scope.name='';
+				$scope.name= null;
 			})
 			.error(function(){
 				console.log("unable to add task");
 			});
 	};
 
-	$scope.done = function(todo){
+	$scope.delete = function(todo){
 
 		$http.delete('app_dev.php/todolist/task/' + todo.id)
 			.success(function(){
@@ -41,5 +42,16 @@ app.controller('TodoController', ['$scope', '$http', function($scope, $http){
 			.error(function(){
 				console.log("failed to load data");
 			});
-	}
+	};
+
+	$scope.done = function(todo){
+		$http.put('app_dev.php/todolist/task/' + todo.id, JSON.stringify({"status" : "Done"}))
+			.success(function(){
+				var index = $scope.todos.indexOf(todo);
+				$scope.todos[index].status = "Done";
+			})
+			.error(function(){
+				console.log("failed to update the status");
+			});
+	};
 }]);
