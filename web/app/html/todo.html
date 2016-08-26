@@ -21,6 +21,7 @@
                 <th>Task</th>
       					<th>Added On</th>
       					<th>Update</th>
+                <th>Delete</th>
     				</tr>
   				</thead>
   				<tbody ng-repeat="todo in todos">
@@ -38,7 +39,12 @@
   						<td>
                 <button class="btn btn-primary btn-sm" ng-click="done(todo)" ng-disabled="todo.status == 'Done'">Done</button>
               </td>
+              <td>
+                <button class="btn btn-primary btn-sm" ng-click="delete(todo)">Delete</button>
+              </td>
   					</tr>
   				</tbody>
 			</table>
+      <button class="btn btn-primary btn-sm">Delete Selected</button>
+      <button class="btn btn-primary btn-sm">Delete All Completed</button>
 </div>
