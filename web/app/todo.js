@@ -54,4 +54,15 @@ app.controller('TodoController', ['$scope', '$http', function($scope, $http){
 				console.log("failed to update the status");
 			});
 	};
+
+	$scope.checkAll = function(){
+		if ($scope.selectAll){
+			$scope.selectAll = false;
+		}else{
+			$scope.selectAll = true;
+		}
+		angular.forEach($scope.todos, function(todo){
+			todo.selected = $scope.selectAll;
+		});
+	};
 }]);
