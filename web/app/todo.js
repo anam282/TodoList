@@ -3,7 +3,7 @@ var app = angular.module("todoApp");
 app.controller('TodoController', ['$scope', '$http', function($scope, $http){
 	$scope.heading = "Todo List";
 	$scope.todos = [];
-	
+	$scope.selectAll = false;
 	$scope.add = function(){
 		dateCreated = new Date();
 		request = {
@@ -56,13 +56,50 @@ app.controller('TodoController', ['$scope', '$http', function($scope, $http){
 	};
 
 	$scope.checkAll = function(){
+		console.log("selectAll:" + $scope.selectAll);
 		if ($scope.selectAll){
-			$scope.selectAll = false;
-		}else{
 			$scope.selectAll = true;
+		}else{
+			$scope.selectAll = false;
 		}
 		angular.forEach($scope.todos, function(todo){
 			todo.selected = $scope.selectAll;
+			console.log("selected:"+todo.selected);
+		});
+	};
+
+	$scope.uncheckOne = function(isChecked){
+		if(!isChecked){
+			$scope.selectAll = false;
+		}
+	}
+	$scope.deleteSelected = function(){
+		angular.forEach($scope.todos, function(todo){
+			if(todo.selected){
+				$http.delete('app_dev.php/todolist/task/' + todo.id)
+					.success(function(){
+						var index = $scope.todos.indexOf(todo);
+						$scope.todos.splice(index, 1);
+					})
+					.error(function(){
+						console.log("unable to delete task " + todo.id);
+					});
+			}
+		});
+	};
+
+	$scope.deleteAllCompleted = function(){
+		angular.forEach($scope.todos, function(todo){
+			if(todo.status == 'Done'){
+				$http.delete('app_dev.php/todolist/task/' + todo.id)
+					.success(function(){
+						var index = $scope.todos.indexOf(todo);
+						$scope.todos.splice(index, 1);
+					})
+					.error(function(){
+						console.log("unable to delete task" + todo.id);
+					});
+			}
 		});
 	};
 }]);

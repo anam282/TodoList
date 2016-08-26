@@ -12,7 +12,8 @@
 			<!-- No tasks in list -->
 			<p ng-if="todos.length === 0"><b>All done!!</b></p>
 			<!-- Display list of todos -->
-			<table ng-if="todos.length > 0" class="table">
+			<div ng-if="todos.length > 0" >
+      <table class="table">
   				<thead>
     				<tr>
       					<th>Select All
@@ -26,7 +27,7 @@
   				</thead>
   				<tbody ng-repeat="todo in todos">
   					<tr>
-              <td><input type="checkbox" ng-model="todo.selected"></td>
+              <td><input type="checkbox" ng-model="todo.selected" ng-click="uncheckOne(todo.selected)"></td>
   						<td>
                 <div ng-if="todo.status == 'Done'">
                   <s>{{todo.name}}</s>
@@ -45,6 +46,7 @@
   					</tr>
   				</tbody>
 			</table>
-      <button class="btn btn-primary btn-sm">Delete Selected</button>
-      <button class="btn btn-primary btn-sm">Delete All Completed</button>
+      <button class="btn btn-primary btn-sm" ng-click="deleteSelected()">Delete Selected</button>
+      <button class="btn btn-primary btn-sm" ng-click="deleteAllCompleted()">Delete All Completed</button>
+    </div>
 </div>
